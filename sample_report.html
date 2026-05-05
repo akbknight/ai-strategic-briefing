@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Retail Sales Analysis — Strategic Briefing</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e5e5e5; font-size: 14px; line-height: 1.6; padding: 40px 20px; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .report-header { border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 24px; margin-bottom: 32px; }
+  .report-title { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 6px; }
+  .report-meta { font-size: 12px; color: #606060; font-family: monospace; }
+  .section { margin-bottom: 36px; }
+  .section-label { font-size: 10px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.12em; color: #606060; margin-bottom: 12px; }
+  .ai-brief { background: #161616; border: 1px solid rgba(232,160,32,0.2); border-left: 3px solid #E8A020; border-radius: 8px; padding: 20px 24px; font-size: 13px; color: #c0c0c0; line-height: 1.75; white-space: pre-wrap; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .stat-card { background: #161616; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 14px; }
+  .stat-name { font-size: 11px; font-family: monospace; color: #606060; margin-bottom: 8px; }
+  .stat-row { display: flex; justify-content: space-between; font-size: 12px; padding: 2px 0; }
+  .stat-key { color: #808080; }
+  .stat-val { color: #e5e5e5; font-family: monospace; }
+  .outlier-warn { color: #f87171; }
+  .chart-card { background: #161616; border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .chart-sub { font-size: 11px; color: #808080; margin-bottom: 16px; }
+  .chart-wrap { position: relative; height: 240px; }
+  .anomaly-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .anomaly-table th { font-family: monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #606060; padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.07); text-align: left; }
+  .anomaly-table td { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #a0a0a0; }
+  .sev-high { color: #f87171; font-weight: 600; }
+  .sev-medium { color: #fbbf24; font-weight: 600; }
+  .sev-low { color: #4ade80; font-weight: 600; }
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .kpi { background: #161616; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 14px; }
+  .kpi-label { font-size: 10px; font-family: monospace; color: #606060; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .kpi-value { font-size: 20px; font-weight: 700; color: #e5e5e5; }
+  .kpi-sub { font-size: 11px; color: #808080; margin-top: 3px; }
+  footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 11px; color: #505050; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="report-header">
+    <div class="report-title">US Retail Sales Analysis</div>
+    <div class="report-meta">Strategic Briefing · Generated 2026-05-05 01:18 · 135 records · 2 fields</div>
+  </div>
+
+  <div class="section"><div class="section-label">Executive Briefing</div><div class="ai-brief" style="border-color:rgba(255,255,255,0.1);border-left-color:#808080">Set ANTHROPIC_API_KEY to enable AI-generated executive insights.</div></div>
+
+  <div class="section">
+  <div class="section-label">12-Month Forecast — retail_sales_billions</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Latest</div><div class="kpi-value">752.06</div><div class="kpi-sub">March 2026</div></div>
+    <div class="kpi"><div class="kpi-label">12m Forecast</div><div class="kpi-value">781.066</div><div class="kpi-sub">March 2027</div></div>
+    <div class="kpi"><div class="kpi-label">Projected Change</div><div class="kpi-value" style="color:#4ade80">+3.86%</div><div class="kpi-sub">Holt-Winters ETS</div></div>
+    <div class="kpi"><div class="kpi-label">RMSE</div><div class="kpi-value">12.2136</div><div class="kpi-sub">In-sample fit</div></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">retail_sales_billions — History + 12-Month Forecast</div>
+    <div class="chart-sub">Holt-Winters additive trend + seasonality · AIC 707.7</div>
+    <div class="chart-wrap"><canvas id="forecastCanvas"></canvas></div>
+  </div>
+</div>
+
+  <div class="section">
+  <div class="section-label">1 Anomalies Detected</div>
+  <div class="chart-card" style="padding:0">
+    <table class="anomaly-table">
+      <thead><tr><th>Date</th><th>Value</th><th>Severity</th><th>Method</th><th>Score</th></tr></thead>
+      <tbody><tr><td style='font-family:monospace'>2020-04-01</td><td>401.03</td><td class='sev-high'>high</td><td style='font-family:monospace;color:#606060'>cusum</td><td style='color:#808080'>8.39&sigma;</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+  <div class="section">
+    <div class="section-label">Column Statistics</div>
+    <div class="stats-grid" id="statsGrid"></div>
+  </div>
+
+  <footer>
+    Generated by <strong>AI Strategic Briefing Generator</strong> · <a href="https://akbknight.github.io" style="color:#808080">akbknight.github.io</a>
+    · Source: sample_retail_sales.csv
+  </footer>
+</div>
+
+<script>
+const STATS = [{"column": "retail_sales_billions", "count": 135, "mean": 569.1241, "median": 530.74, "std": 106.7711, "min": 401.03, "max": 752.06, "q1": 472.02, "q3": 677.77, "missing_pct": 0.0, "outliers_zscore": 0, "outliers_iqr": 0}];
+const FORECAST = {"history_dates": ["2015-01-01", "2015-02-01", "2015-03-01", "2015-04-01", "2015-05-01", "2015-06-01", "2015-07-01", "2015-08-01", "2015-09-01", "2015-10-01", "2015-11-01", "2015-12-01", "2016-01-01", "2016-02-01", "2016-03-01", "2016-04-01", "2016-05-01", "2016-06-01", "2016-07-01", "2016-08-01", "2016-09-01", "2016-10-01", "2016-11-01", "2016-12-01", "2017-01-01", "2017-02-01", "2017-03-01", "2017-04-01", "2017-05-01", "2017-06-01", "2017-07-01", "2017-08-01", "2017-09-01", "2017-10-01", "2017-11-01", "2017-12-01", "2018-01-01", "2018-02-01", "2018-03-01", "2018-04-01", "2018-05-01", "2018-06-01", "2018-07-01", "2018-08-01", "2018-09-01", "2018-10-01", "2018-11-01", "2018-12-01", "2019-01-01", "2019-02-01", "2019-03-01", "2019-04-01", "2019-05-01", "2019-06-01", "2019-07-01", "2019-08-01", "2019-09-01", "2019-10-01", "2019-11-01", "2019-12-01", "2020-01-01", "2020-02-01", "2020-03-01", "2020-04-01", "2020-05-01", "2020-06-01", "2020-07-01", "2020-08-01", "2020-09-01", "2020-10-01", "2020-11-01", "2020-12-01", "2021-01-01", "2021-02-01", "2021-03-01", "2021-04-01", "2021-05-01", "2021-06-01", "2021-07-01", "2021-08-01", "2021-09-01", "2021-10-01", "2021-11-01", "2021-12-01", "2022-01-01", "2022-02-01", "2022-03-01", "2022-04-01", "2022-05-01", "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01", "2022-11-01", "2022-12-01", "2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01", "2023-09-01", "2023-10-01", "2023-11-01", "2023-12-01", "2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01", "2024-05-01", "2024-06-01", "2024-07-01", "2024-08-01", "2024-09-01", "2024-10-01", "2024-11-01", "2024-12-01", "2025-01-01", "2025-02-01", "2025-03-01", "2025-04-01", "2025-05-01", "2025-06-01", "2025-07-01", "2025-08-01", "2025-09-01", "2025-10-01", "2025-11-01", "2025-12-01", "2026-01-01", "2026-02-01", "2026-03-01"], "history_values": [428.21, 427.12, 433.65, 434.47, 437.87, 437.95, 441.94, 441.85, 439.87, 438.69, 440.3, 442.15, 439.47, 443.12, 441.86, 444.25, 445.49, 450.24, 449.79, 449.95, 453.06, 453.85, 453.89, 459.31, 464.41, 464.28, 463.67, 465.28, 462.75, 465.13, 465.09, 466.02, 475.72, 476.11, 480.95, 483.59, 481.41, 484.03, 484.11, 484.15, 491.96, 490.23, 493.14, 493.44, 491.51, 496.42, 498.85, 489.11, 490.44, 491.75, 499.29, 499.34, 504.74, 505.25, 509.09, 512.56, 509.28, 510.65, 514.22, 515.87, 515.12, 515.33, 468.32, 401.03, 478.45, 518.04, 526.3, 530.74, 541.3, 539.11, 533.94, 538.55, 559.23, 544.89, 603.58, 608.96, 605.28, 611.95, 601.82, 605.53, 609.67, 618.57, 624.87, 619.94, 631.51, 638.1, 651.03, 660.19, 659.85, 666.11, 659.55, 663.57, 661.85, 668.67, 659.46, 651.76, 680.25, 672.15, 665.07, 670.49, 673.9, 677.12, 678.42, 684.75, 689.4, 686.15, 685.33, 686.28, 680.46, 685.28, 687.64, 687.6, 692.77, 692.45, 698.84, 697.04, 703.05, 708.29, 711.85, 717.26, 711.26, 711.58, 723.35, 721.79, 716.1, 723.03, 727.73, 731.7, 732.19, 731.05, 734.72, 734.72, 734.5, 739.77, 752.06], "fitted": [428.213, 428.304, 431.806, 429.648, 442.798, 444.083, 439.242, 444.253, 444.554, 441.748, 439.674, 440.315, 446.652, 439.564, 447.806, 437.858, 452.578, 451.703, 451.532, 452.103, 452.654, 454.938, 454.834, 453.905, 463.812, 464.504, 468.966, 459.668, 473.608, 468.963, 466.422, 467.403, 468.724, 477.598, 477.094, 480.965, 488.092, 481.504, 488.716, 480.108, 492.478, 498.173, 491.522, 495.453, 496.144, 493.388, 497.404, 498.865, 493.612, 490.534, 496.436, 495.288, 507.668, 510.953, 506.542, 511.403, 515.264, 511.158, 511.634, 514.235, 520.372, 515.214, 520.016, 464.318, 409.358, 484.663, 519.332, 528.613, 533.444, 543.178, 540.094, 533.955, 543.052, 559.324, 549.576, 599.578, 617.288, 611.493, 613.242, 604.133, 608.234, 611.548, 619.554, 624.885, 624.442, 631.604, 642.786, 647.028, 668.518, 666.063, 667.402, 661.863, 666.274, 663.728, 669.654, 659.475, 656.262, 680.344, 676.836, 661.068, 678.818, 680.113, 678.412, 680.733, 687.454, 691.278, 687.134, 685.345, 690.782, 680.554, 689.966, 683.638, 695.928, 698.983, 693.742, 701.153, 699.744, 704.928, 709.274, 711.865, 721.762, 711.354, 716.266, 719.348, 730.118, 722.313, 724.322, 730.043, 734.404, 734.068, 732.034, 734.735, 739.222, 734.594, 744.456], "forecast_dates": ["2026-04-01", "2026-05-01", "2026-06-01", "2026-07-01", "2026-08-01", "2026-09-01", "2026-10-01", "2026-11-01", "2026-12-01", "2027-01-01", "2027-02-01", "2027-03-01"], "forecast_point": [748.058, 756.386, 762.599, 763.89, 766.203, 768.908, 770.786, 771.77, 771.784, 776.286, 776.381, 781.066], "ci95u": [771.997, 790.24, 804.062, 811.768, 819.732, 827.545, 834.122, 839.479, 843.601, 851.987, 855.776, 863.992], "ci95l": [724.119, 722.532, 721.136, 716.013, 712.674, 710.27, 707.45, 704.061, 699.968, 700.585, 696.985, 698.14], "rmse": 12.2136, "aic": 707.7, "latest": 752.06, "latest_date": "March 2026", "forecast_12m": 781.066, "forecast_12m_date": "March 2027", "change_pct": 3.86, "value_col": "retail_sales_billions", "date_col": "date"};
+const ANOMALIES = [{"date": "2020-04-01", "value": 401.03, "type": "cusum", "severity": "high", "score": 8.39}];
+
+function esc(s) { const d = document.createElement('div'); d.textContent = String(s); return d.innerHTML; }
+
+function renderStats() {
+  const grid = document.getElementById('statsGrid');
+  STATS.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'stat-card';
+    const warnClass = (s.outliers_zscore > 0 || s.outliers_iqr > 0) ? ' outlier-warn' : '';
+    card.appendChild(Object.assign(document.createElement('div'), { className: 'stat-name', textContent: s.column }));
+    const rows = [
+      ['mean', s.mean], ['median', s.median], ['std', s.std],
+      ['min', s.min], ['max', s.max], ['missing', s.missing_pct + '%'],
+      ['outliers (z)', s.outliers_zscore], ['outliers (IQR)', s.outliers_iqr],
+    ];
+    rows.forEach(([k, v]) => {
+      const row = document.createElement('div');
+      row.className = 'stat-row';
+      const keyEl = Object.assign(document.createElement('span'), { className: 'stat-key', textContent: k });
+      const valEl = Object.assign(document.createElement('span'), { className: 'stat-val' + (k.startsWith('outlier') && v > 0 ? ' outlier-warn' : ''), textContent: String(v) });
+      row.appendChild(keyEl);
+      row.appendChild(valEl);
+      card.appendChild(row);
+    });
+    grid.appendChild(card);
+  });
+}
+
+function renderForecast() {
+  if (!FORECAST) return;
+  const canvas = document.getElementById('forecastCanvas');
+  if (!canvas) return;
+  new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: [...FORECAST.history_dates.slice(-48), ...FORECAST.forecast_dates].map(d => {
+        const dt = new Date(d); return dt.toLocaleDateString('en-US', {year:'numeric',month:'short'});
+      }),
+      datasets: [
+        { label: FORECAST.value_col + ' (actual)', data: [...FORECAST.history_values.slice(-48), ...new Array(FORECAST.forecast_point.length).fill(null)], borderColor: '#E8A020', borderWidth: 1.5, pointRadius: 0, tension: 0.3, fill: false },
+        { label: 'Forecast', data: [...new Array(48).fill(null), ...FORECAST.forecast_point], borderColor: '#60a5fa', borderWidth: 1.5, borderDash: [4,3], pointRadius: 0, tension: 0.3, fill: false },
+        { label: '95% CI upper', data: [...new Array(48).fill(null), ...FORECAST.ci95u], borderColor: 'rgba(96,165,250,0.15)', backgroundColor: 'rgba(96,165,250,0.08)', borderWidth: 0, pointRadius: 0, fill: '+1' },
+        { label: '95% CI lower', data: [...new Array(48).fill(null), ...FORECAST.ci95l], borderColor: 'rgba(96,165,250,0.15)', borderWidth: 0, pointRadius: 0, fill: false },
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#606060', font: { size: 10 }, maxTicksLimit: 10, maxRotation: 0 }, grid: { color: 'rgba(255,255,255,0.03)' }, border: { display: false } }, y: { ticks: { color: '#606060', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.03)' }, border: { display: false } } } }
+  });
+}
+
+renderStats();
+renderForecast();
+</script>
+</body>
+</html>

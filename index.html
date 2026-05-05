@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Strategic Briefing Generator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0f0f0f; color: #e5e5e5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.6; }
+    .container { max-width: 860px; margin: 0 auto; padding: 60px 20px; }
+
+    .label { font-size: 11px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.12em; color: #606060; margin-bottom: 12px; }
+    h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; color: #e5e5e5; margin-bottom: 12px; }
+    .tagline { font-size: 16px; color: #a0a0a0; max-width: 560px; margin-bottom: 32px; }
+
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 56px; }
+    .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.15s; }
+    .btn-primary { background: #E8A020; color: #000; }
+    .btn-primary:hover { background: #f0b030; }
+    .btn-ghost { border: 1px solid rgba(255,255,255,0.15); color: #a0a0a0; }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: #e5e5e5; }
+
+    .pipeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: rgba(255,255,255,0.07); border-radius: 10px; overflow: hidden; margin-bottom: 40px; }
+    .step { background: #161616; padding: 20px; position: relative; }
+    .step-num { font-family: monospace; font-size: 10px; color: #E8A020; margin-bottom: 8px; }
+    .step-title { font-size: 13px; font-weight: 600; color: #e5e5e5; margin-bottom: 4px; }
+    .step-desc { font-size: 12px; color: #808080; }
+
+    .section { margin-bottom: 40px; }
+    .section h2 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #e5e5e5; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+    .feature { background: #161616; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 16px; }
+    .feature-name { font-size: 12px; font-weight: 700; color: #e5e5e5; margin-bottom: 4px; }
+    .feature-desc { font-size: 12px; color: #808080; line-height: 1.5; }
+
+    .code-block { background: #111; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px 20px; font-family: monospace; font-size: 12px; color: #a0a0a0; margin-bottom: 12px; white-space: pre-wrap; }
+    .code-comment { color: #404040; }
+    .code-cmd { color: #60a5fa; }
+    .code-flag { color: #E8A020; }
+
+    .sample-box { background: #161616; border: 1px solid rgba(232,160,32,0.2); border-radius: 10px; padding: 24px; margin-bottom: 40px; }
+    .sample-title { font-size: 14px; font-weight: 700; color: #e5e5e5; margin-bottom: 8px; }
+    .sample-desc { font-size: 13px; color: #a0a0a0; margin-bottom: 16px; }
+
+    .tech-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tech-tag { font-family: monospace; font-size: 11px; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); color: #808080; background: #161616; }
+
+    footer { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 24px; margin-top: 20px; font-size: 12px; color: #505050; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    footer a { color: #808080; text-decoration: none; }
+    footer a:hover { color: #e5e5e5; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <p class="label">Analytics Tool · Python · Claude API</p>
+  <h1>AI Strategic Briefing<br>Generator</h1>
+  <p class="tagline">Autonomous pipeline from raw CSV to polished executive report — statistical analysis, anomaly detection, forecasting, and AI-generated narrative in a single command.</p>
+
+  <div class="cta-row">
+    <a href="sample_report.html" class="btn btn-primary">View Sample Report →</a>
+    <a href="https://github.com/akbknight/ai-strategic-briefing" class="btn btn-ghost">View on GitHub</a>
+  </div>
+
+  <!-- Pipeline steps -->
+  <p class="label">Pipeline</p>
+  <div class="pipeline">
+    <div class="step">
+      <div class="step-num">01 / INGEST</div>
+      <div class="step-title">CSV Loading</div>
+      <div class="step-desc">Auto-detects schema, types, date columns, missing values</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02 / ANALYZE</div>
+      <div class="step-title">Statistics</div>
+      <div class="step-desc">Descriptive stats, IQR/Z-score outlier counts for every column</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03 / DETECT</div>
+      <div class="step-title">Anomaly Detection</div>
+      <div class="step-desc">Z-score + CUSUM algorithms flag structural breaks in time-series</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04 / FORECAST</div>
+      <div class="step-title">Holt-Winters ETS</div>
+      <div class="step-desc">12-month forward projection with 95% confidence interval</div>
+    </div>
+    <div class="step">
+      <div class="step-num">05 / BRIEF</div>
+      <div class="step-title">AI Narrative</div>
+      <div class="step-desc">Claude API synthesizes findings into an executive summary</div>
+    </div>
+    <div class="step">
+      <div class="step-num">06 / EXPORT</div>
+      <div class="step-title">HTML Report</div>
+      <div class="step-desc">Self-contained shareable file with embedded Chart.js charts</div>
+    </div>
+  </div>
+
+  <!-- Sample report -->
+  <div class="sample-box">
+    <div class="sample-title">Sample Report: US Retail Sales Analysis</div>
+    <div class="sample-desc">135-month FRED dataset (Jan 2015 – Mar 2026). Pipeline auto-detected time-series structure, flagged the COVID demand shock, ran Holt-Winters forecast (+3.9% over 12 months), and generated an AI executive summary — no human configuration needed.</div>
+    <a href="sample_report.html" class="btn btn-primary" style="font-size:12px;padding:8px 16px">Open Report →</a>
+  </div>
+
+  <!-- Usage -->
+  <div class="section">
+    <h2>Usage</h2>
+    <div class="code-block"><span class="code-comment"># Install dependencies</span>
+pip install pandas numpy scipy anthropic statsmodels
+
+<span class="code-comment"># Run on any CSV file</span>
+<span class="code-cmd">python</span> briefing.py <span class="code-flag">--input</span> your_data.csv <span class="code-flag">--title</span> "Q2 Analysis"
+
+<span class="code-comment"># With AI narrative (requires API key)</span>
+<span class="code-cmd">export</span> ANTHROPIC_API_KEY=your_key_here
+<span class="code-cmd">python</span> briefing.py <span class="code-flag">--input</span> your_data.csv</div>
+    <p style="font-size:12px;color:#606060">Output: <code style="font-family:monospace;color:#a0a0a0">report_[filename]_[date].html</code> — fully self-contained, no server required.</p>
+  </div>
+
+  <!-- Features -->
+  <div class="section">
+    <h2>What it detects</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="feature-name">Auto Schema Detection</div>
+        <div class="feature-desc">Identifies date columns, numeric fields, and categorical variables without configuration.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-name">Time-Series Recognition</div>
+        <div class="feature-desc">Detects regularly-spaced temporal data and activates forecasting + anomaly detection pipeline.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-name">Z-Score Anomalies</div>
+        <div class="feature-desc">Flags observations greater than 2.5σ from the series mean. Catches single-point extreme deviations.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-name">CUSUM Regime Shifts</div>
+        <div class="feature-desc">Detects sustained directional changes that accumulate over multiple periods — missed by point-based tests.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-name">Holt-Winters Forecast</div>
+        <div class="feature-desc">Additive trend + seasonality model with horizon-scaled 95% CI. AIC-optimized parameters.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-name">Claude AI Synthesis</div>
+        <div class="feature-desc">Sends statistical context to Claude (Haiku model) to write a 3-paragraph executive brief with specific numbers.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech -->
+  <div class="section">
+    <h2>Tech stack</h2>
+    <div class="tech-row">
+      <span class="tech-tag">Python 3.9+</span>
+      <span class="tech-tag">pandas</span>
+      <span class="tech-tag">numpy</span>
+      <span class="tech-tag">scipy.stats</span>
+      <span class="tech-tag">statsmodels</span>
+      <span class="tech-tag">anthropic SDK</span>
+      <span class="tech-tag">Chart.js 4</span>
+      <span class="tech-tag">Holt-Winters ETS</span>
+      <span class="tech-tag">CUSUM</span>
+    </div>
+  </div>
+
+  <footer>
+    <span>Built by <a href="https://akbknight.github.io">Akshay Kumar</a></span>
+    <span>
+      <a href="https://github.com/akbknight/ai-strategic-briefing">GitHub</a> ·
+      <a href="https://fred.stlouisfed.org/series/RSAFS">FRED RSAFS (sample data)</a>
+    </span>
+  </footer>
+</div>
+</body>
+</html>
