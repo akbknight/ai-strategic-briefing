@@ -1,0 +1,29 @@
+# Runtime configuration for ai-strategic-briefing pipeline
+
+pipeline:
+  forecast_horizon_months: 12
+  min_series_length: 18
+  time_series_frequency: MS  # Month Start
+
+anomaly_detection:
+  zscore_threshold: 2.5
+  iqr_multiplier: 2.0
+  cusum_sigma_threshold: 4.0
+  cusum_k_factor: 0.5
+
+forecast:
+  model: holt_winters_additive
+  trend: add
+  seasonal: add
+  seasonal_periods: 12
+  initialization: estimated
+  confidence_interval: 0.95
+
+ai_narrative:
+  model: claude-haiku-4-5-20251001
+  max_tokens: 600
+  use_prompt_cache: true
+
+report:
+  output_dir: "."
+  filename_template: "report_{stem}_{date}.html"
