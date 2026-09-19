@@ -1,9 +1,20 @@
 # AI Strategic Briefing Generator
 
-Autonomous analytics pipeline: CSV input → statistical profiling → anomaly detection → Holt-Winters forecasting → Claude AI narrative → self-contained HTML report. One command, zero configuration required.
+> [!IMPORTANT]
+> **Flagship Autonomous Intelligence Pipeline · Part of the Akshay Kumar Technical Portfolio Ecosystem**  
+> 🌐 **Executive Portfolio:** [https://akbknight.github.io/](https://akbknight.github.io/) · 💼 **LinkedIn:** [linkedin.com/in/akshaykumardl](https://www.linkedin.com/in/akshaykumardl/) · 📄 **Curriculum Vitae:** [Download PDF (369 KB)](https://akbknight.github.io/assets/Akshay_Resume.pdf)
 
-**Live demo:** [akbknight.github.io/ai-strategic-briefing](https://akbknight.github.io/ai-strategic-briefing/)
-**Sample report:** [akbknight.github.io/ai-strategic-briefing/sample_report.html](https://akbknight.github.io/ai-strategic-briefing/sample_report.html)
+[![Live Application](https://img.shields.io/badge/Live%20Application-GitHub%20Pages-0284c7?style=flat-square&logo=github)](https://akbknight.github.io/ai-strategic-briefing/)
+[![Sample Report](https://img.shields.io/badge/Sample%20Report-Executive%20HTML-10b981?style=flat-square)](https://akbknight.github.io/ai-strategic-briefing/sample_report.html)
+[![AI Engine](https://img.shields.io/badge/AI%20Engine-Claude%20Haiku%20(Prompt%20Caching)-8b5cf6?style=flat-square)](https://www.anthropic.com/)
+[![Forecasting](https://img.shields.io/badge/Forecasting-Holt--Winters%20ETS(A%2CA%2CA)-f59e0b?style=flat-square)](https://www.statsmodels.org/)
+[![Author](https://img.shields.io/badge/Author-Akshay%20Kumar-09090b?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/akshaykumardl/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-gray?style=flat-square)](LICENSE)
+
+Autonomous analytics pipeline: CSV input → statistical profiling → anomaly detection (Z-Score & CUSUM) → Holt-Winters econometric forecasting → Claude AI executive narrative → self-contained interactive HTML report. One command, zero configuration required.
+
+**Live Application:** [https://akbknight.github.io/ai-strategic-briefing/](https://akbknight.github.io/ai-strategic-briefing/)  
+**Sample Generated Report:** [https://akbknight.github.io/ai-strategic-briefing/sample_report.html](https://akbknight.github.io/ai-strategic-briefing/sample_report.html)
 
 ---
 
@@ -218,7 +229,12 @@ ai-strategic-briefing/
 
 ---
 
-## Author
+## 👤 Author & Strategic Portfolio
 
-**Akshay Kumar**
-[linkedin.com/in/akshaykumardl](https://www.linkedin.com/in/akshaykumardl/) · [akbknight.github.io](https://akbknight.github.io)
+**Akshay Kumar**  
+STEM MBA Candidate · Business Analytics & AI · American University Kogod School of Business  
+Former Computer Programmer · U.S. Department of State  
+- **Executive Portfolio:** [https://akbknight.github.io/](https://akbknight.github.io/)  
+- **LinkedIn Profile:** [linkedin.com/in/akshaykumardl](https://www.linkedin.com/in/akshaykumardl/)  
+- **Direct Résumé:** [Download PDF (369 KB)](https://akbknight.github.io/assets/Akshay_Resume.pdf)  
+- **Email:** [ak8335a@american.edu](mailto:ak8335a@american.edu)
