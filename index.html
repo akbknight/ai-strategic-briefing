@@ -423,9 +423,17 @@
       grid-template-columns: 1.4fr 1fr;
       gap: 1.5rem;
       margin-bottom: 2.5rem;
+      min-width: 0;
+      max-width: 100%;
     }
     @media (max-width: 1024px) {
-      .telemetry-grid { grid-template-columns: 1fr; }
+      .telemetry-grid {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+      }
     }
 
     .chart-panel {
@@ -434,7 +442,11 @@
       border-radius: 16px;
       padding: 1.5rem;
       display: flex;
-      flex-col: column;
+      flex-direction: column;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
     }
     .chart-controls {
       display: flex;
@@ -443,6 +455,10 @@
       margin-bottom: 1rem;
       flex-wrap: wrap;
       gap: 0.75rem;
+    }
+    @media (max-width: 640px) {
+      .chart-panel { padding: 1rem; }
+      .chart-controls { flex-direction: column; align-items: flex-start; }
     }
     .threshold-control {
       display: flex;
@@ -480,6 +496,9 @@
       display: flex;
       flex-direction: column;
       font-family: var(--font-mono);
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .terminal-header {
       background: #09090b;
@@ -506,10 +525,13 @@
       padding: 1.25rem;
       height: 380px;
       overflow-y: auto;
+      overflow-x: hidden;
       font-size: 0.75rem;
       color: #38bdf8;
       line-height: 1.6;
       white-space: pre-wrap;
+      word-break: break-word;
+      max-width: 100%;
     }
     .terminal-cursor {
       display: inline-block;
