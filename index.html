@@ -34,6 +34,91 @@
       --font-mono: 'JetBrains Mono', ui-monospace, monospace;
     }
 
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-subtle: rgba(0, 0, 0, 0.04);
+      --border-accent: rgba(2, 132, 199, 0.4);
+      --text: #09090b;
+      --text-2: #1e293b;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+      --accent: #0284c7;
+      --accent-glow: rgba(2, 132, 199, 0.15);
+      --gold: #d97706;
+      --emerald: #059669;
+      --crimson: #e11d48;
+      color-scheme: light;
+    }
+
+    [data-theme="light"] nav.ecosystem-nav {
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    [data-theme="light"] .terminal-window {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+    }
+    [data-theme="light"] .terminal-header {
+      background: #f1f5f9;
+      border-bottom-color: rgba(0, 0, 0, 0.08);
+    }
+    [data-theme="light"] .terminal-body {
+      background: #fafafa;
+      color: #0f172a;
+    }
+    [data-theme="light"] .stat-card {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+    [data-theme="light"] .briefing-card {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+    [data-theme="light"] .briefing-body {
+      color: #1e293b;
+    }
+
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 0.3rem 0.7rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .theme-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+    }
+    [data-theme="light"] .theme-toggle-btn {
+      background: rgba(0, 0, 0, 0.05);
+      border-color: rgba(0, 0, 0, 0.12);
+      color: #09090b;
+    }
+    [data-theme="light"] .theme-toggle-btn:hover {
+      background: rgba(0, 0, 0, 0.09);
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+    [data-theme="dark"] .theme-icon-sun { display: inline-block; }
+    [data-theme="dark"] .theme-icon-moon { display: none; }
+    [data-theme="light"] .theme-icon-sun { display: none; }
+    [data-theme="light"] .theme-icon-moon { display: inline-block; }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -516,6 +601,11 @@
       <span class="nav-app-name">AI Strategic Briefing Engine</span>
     </div>
     <div class="nav-right">
+      <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Light / Dark Mode" title="Toggle Light / Dark Mode">
+        <span class="theme-icon-sun">☀️</span>
+        <span class="theme-icon-moon">🌙</span>
+        <span id="themeLabel">Dark</span>
+      </button>
       <a href="https://www.linkedin.com/in/akshaykumardl/" target="_blank" rel="noopener noreferrer" class="nav-link">
         LinkedIn ↗
       </a>
@@ -761,6 +851,13 @@
   const particles = new THREE.Points(geometry, material);
   scene.add(particles);
 
+  window.updateThreeTheme = function() {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    material.color.setHex(isLight ? 0x0284c7 : 0x38bdf8);
+    material.opacity = isLight ? 0.35 : 0.6;
+  };
+  window.updateThreeTheme();
+
   let count = 0;
   let mouseX = 0, mouseY = 0;
   window.addEventListener('mousemove', (e) => {
@@ -908,6 +1005,49 @@
     });
   }
   initChart();
+
+  window.updateChartTheme = function() {
+    if (!chartInstance) return;
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    chartInstance.options.scales.x.grid.color = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.04)';
+    chartInstance.options.scales.y.grid.color = isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.04)';
+    chartInstance.options.scales.x.ticks.color = isLight ? '#475569' : '#64748b';
+    chartInstance.options.scales.y.ticks.color = isLight ? '#475569' : '#64748b';
+    chartInstance.options.plugins.legend.labels.color = isLight ? '#334155' : '#94a3b8';
+    chartInstance.update();
+  };
+
+  /* ─── 0. UNIVERSAL THEME MANAGER ─── */
+  function initTheme() {
+    const saved = localStorage.getItem('ak_theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = saved ? saved : (prefersDark ? 'dark' : 'light');
+    applyTheme(theme);
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('ak_theme', theme);
+    const label = document.getElementById('themeLabel');
+    if (label) label.textContent = theme === 'dark' ? 'Dark' : 'Light';
+    if (window.updateThreeTheme) window.updateThreeTheme();
+    if (window.updateChartTheme) window.updateChartTheme();
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  }
+
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('ak_theme')) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  }
+  initTheme();
 
   function updateSensitivity(val) {
     document.getElementById('zVal').innerText = val + 'σ';
